@@ -13,7 +13,7 @@
       "afairgiant/MediKeep": "https://github.com/afairgiant/MediKeep"
     },
     "comparison": {
-      "images": ["ghcr.io/afairgiant/medikeep/medikeep"]
+      "images": ["ghcr.io/afairgiant/medikeep"]
     }
   }
 }
