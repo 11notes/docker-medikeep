@@ -35,6 +35,7 @@ Below you find a comparison between this image and the most used or original one
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
 | 11notes/medikeep:0.37.0 | 155MB | 1000:1000 | ❌ | amd64, arm64 |
+| afairgiant/medikeep | 451MB | 0:0 | ❌ | amd64, arm64 |
 
 # VOLUMES 📁
 * **/medikeep/var** - Directory of all your uploads
@@ -85,6 +86,12 @@ services:
       DB_PASSWORD: "${POSTGRES_PASSWORD}"
       SECRET_KEY: "${SECRET_KEY}"
       ADMIN_DEFAULT_PASSWORD: "${ADMIN_DEFAULT_PASSWORD}"
+      SSO_ENABLED: true
+      SSO_PROVIDER_TYPE: "keycloak"
+      SSO_CLIENT_ID: "medikeep"
+      SSO_CLIENT_SECRET: "${SSO_CLIENT_SECRET}"
+      SSO_ISSUER_URL: "${SSO_ISSUER_URL}"
+      SSO_REDIRECT_URI: "${SSO_REDIRECT_URI}"
     ports:
       - "3000:8080/tcp"
     networks:
@@ -160,4 +167,4 @@ docker pull quay.io/11notes/medikeep:0.37.0
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-medikeep/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-medikeep/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-medikeep/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 10.11.2025, 20:13:22 (CET)*
+*created 10.11.2025, 20:16:20 (CET)*
