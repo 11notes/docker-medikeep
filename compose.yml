@@ -41,6 +41,12 @@ services:
       DB_PASSWORD: "${POSTGRES_PASSWORD}"
       SECRET_KEY: "${SECRET_KEY}"
       ADMIN_DEFAULT_PASSWORD: "${ADMIN_DEFAULT_PASSWORD}"
+      SSO_ENABLED: true
+      SSO_PROVIDER_TYPE: "keycloak"
+      SSO_CLIENT_ID: "medikeep"
+      SSO_CLIENT_SECRET: "${SSO_CLIENT_SECRET}"
+      SSO_ISSUER_URL: "${SSO_ISSUER_URL}"
+      SSO_REDIRECT_URI: "${SSO_REDIRECT_URI}"
     ports:
       - "3000:8080/tcp"
     networks:
