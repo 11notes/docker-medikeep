@@ -34,7 +34,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
-| 11notes/medikeep:0.40.0 | 156MB | 1000:1000 | ❌ | amd64, arm64 |
+| 11notes/medikeep | 156MB | 1000:1000 | ❌ | amd64, arm64 |
 | afairgiant/medikeep | 451MB | 0:0 | ❌ | amd64, arm64 |
 
 # VOLUMES 📁
@@ -167,4 +167,4 @@ docker pull quay.io/11notes/medikeep:0.40.0
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-medikeep/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-medikeep/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-medikeep/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 10.11.2025, 20:22:17 (CET)*
+*created 10.11.2025, 20:24:08 (CET)*
