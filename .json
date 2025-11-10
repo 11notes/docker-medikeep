@@ -1,10 +1,10 @@
 {
   "image": "11notes/medikeep",
-  "platform":"amd64,arm64",
+  "platform": "amd64,arm64",
   "name": "medikeep",
   "root": "/medikeep",
   "semver": {
-    "version": "0.37.0"
+    "version": "0.40.0"
   },
   "readme": {
     "description": "Run medikeep, rootless and with no bloat.",
@@ -13,7 +13,9 @@
       "afairgiant/MediKeep": "https://github.com/afairgiant/MediKeep"
     },
     "comparison": {
-      "images": ["ghcr.io/afairgiant/medikeep"]
+      "images": [
+        "ghcr.io/afairgiant/medikeep"
+      ]
     }
   }
 }
