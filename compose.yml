@@ -1,0 +1,66 @@
+name: "medical"
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
+services:
+  postgres:
+    # for more information about this image checkout:
+    # https://github.com/11notes/docker-postgres
+    image: "11notes/postgres:17"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Zurich"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+      POSTGRES_BACKUP_RETENTION: 5
+    networks:
+      backend:
+    volumes:
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      - "/postgres/run:uid=1000,gid=1000"
+      - "/postgres/log:uid=1000,gid=1000"
+    restart: "always"
+
+  medikeep:
+    depends_on:
+      postgres:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/medikeep:0.40.0"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Zurich"
+      DB_PASSWORD: "${POSTGRES_PASSWORD}"
+      SECRET_KEY: "${SECRET_KEY}"
+      ADMIN_DEFAULT_PASSWORD: "${ADMIN_DEFAULT_PASSWORD}"
+    ports:
+      - "3000:8080/tcp"
+    networks:
+      frontend:
+      backend:
+    volumes:
+      - "medikeep.var:/medikeep/var"
+      - "medikeep.backup:/medikeep/backup"
+    tmpfs:
+      - "/medikeep/log:uid=1000,gid=1000"
+    restart: "always"
+
+volumes:
+  postgres.etc:
+  postgres.var:
+  postgres.backup:
+  medikeep.var:
+  medikeep.backup:
+
+networks:
+  frontend:
+  backend:
+    internal: true
