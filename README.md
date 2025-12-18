@@ -79,7 +79,7 @@ services:
       postgres:
         condition: "service_healthy"
         restart: true
-    image: "11notes/medikeep:0.41.3"
+    image: "11notes/medikeep:0.42.0"
     <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
@@ -135,18 +135,18 @@ To find out how you can change the default UID/GID of this container image, cons
 # MAIN TAGS 🏷️
 These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
 
-* [0.41.3](https://hub.docker.com/r/11notes/medikeep/tags?name=0.41.3)
+* [0.42.0](https://hub.docker.com/r/11notes/medikeep/tags?name=0.42.0)
 
 ### There is no latest tag, what am I supposed to do about updates?
-It is my opinion that the ```:latest``` tag is a bad habbit and should not be used at all. Many developers introduce **breaking changes** in new releases. This would messed up everything for people who use ```:latest```. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:0.41.3``` you can use ```:0``` or ```:0.41```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version. Which in theory should not introduce breaking changes.
+It is my opinion that the ```:latest``` tag is a bad habbit and should not be used at all. Many developers introduce **breaking changes** in new releases. This would messed up everything for people who use ```:latest```. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:0.42.0``` you can use ```:0``` or ```:0.42```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version. Which in theory should not introduce breaking changes.
 
 If you still insist on having the bleeding edge release of this app, simply use the ```:rolling``` tag, but be warned! You will get the latest version of the app instantly, regardless of breaking changes or security issues or what so ever. You do this at your own risk!
 
 # REGISTRIES ☁️
 ```
-docker pull 11notes/medikeep:0.41.3
-docker pull ghcr.io/11notes/medikeep:0.41.3
-docker pull quay.io/11notes/medikeep:0.41.3
+docker pull 11notes/medikeep:0.42.0
+docker pull ghcr.io/11notes/medikeep:0.42.0
+docker pull quay.io/11notes/medikeep:0.42.0
 ```
 
 # SOURCE 💾
@@ -167,4 +167,4 @@ docker pull quay.io/11notes/medikeep:0.41.3
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-medikeep/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-medikeep/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-medikeep/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 07.12.2025, 06:22:13 (CET)*
+*created 18.12.2025, 06:27:04 (CET)*
