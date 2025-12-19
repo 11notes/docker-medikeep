@@ -34,7 +34,7 @@ services:
       postgres:
         condition: "service_healthy"
         restart: true
-    image: "11notes/medikeep:0.42.0"
+    image: "11notes/medikeep:0.42.1"
     <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
