@@ -4,7 +4,7 @@
   "name": "medikeep",
   "root": "/medikeep",
   "semver": {
-    "version": "0.42.0"
+    "version": "0.42.1"
   },
   "readme": {
     "description": "Run medikeep, rootless and with no bloat.",
