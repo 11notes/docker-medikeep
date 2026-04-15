@@ -64,16 +64,8 @@
 
   RUN set -ex; \
     pip install \
-      uv;
-
-  RUN set -ex; \
-    uv pip install \
       --only-binary=:all: \
       -r /requirements.txt;
-
-  RUN set -ex; \
-    pip uninstall -y \
-      uv;
 
   RUN set -ex; \
     chmod -R 0755 /opt${APP_ROOT};
