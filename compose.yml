@@ -8,27 +8,6 @@ x-lockdown: &lockdown
     - "no-new-privileges=true"
 
 services:
-  postgres:
-    # for more information about this image checkout:
-    # https://github.com/11notes/docker-postgres
-    image: "11notes/postgres:17"
-    <<: *lockdown
-    environment:
-      TZ: "Europe/Zurich"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
-      POSTGRES_BACKUP_RETENTION: 5
-    networks:
-      backend:
-    volumes:
-      - "postgres.etc:/postgres/etc"
-      - "postgres.var:/postgres/var"
-      - "postgres.backup:/postgres/backup"
-    tmpfs:
-      - "/postgres/run:uid=1000,gid=1000"
-      - "/postgres/log:uid=1000,gid=1000"
-    restart: "always"
-
   medikeep:
     depends_on:
       postgres:
@@ -59,12 +38,33 @@ services:
       - "/medikeep/log:uid=1000,gid=1000"
     restart: "always"
 
+  postgres:
+    # for more information about this image checkout:
+    # https://github.com/11notes/docker-postgres
+    image: "11notes/postgres:18"
+    <<: *lockdown
+    environment:
+      TZ: "Europe/Zurich"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_BACKUP_SCHEDULE: "0 3 * * *"
+      POSTGRES_BACKUP_RETENTION: 5
+    networks:
+      backend:
+    volumes:
+      - "postgres.etc:/postgres/etc"
+      - "postgres.var:/postgres/var"
+      - "postgres.backup:/postgres/backup"
+    tmpfs:
+      - "/postgres/run:uid=1000,gid=1000"
+      - "/postgres/log:uid=1000,gid=1000"
+    restart: "always"
+
 volumes:
+  medikeep.var:
+  medikeep.backup:
   postgres.etc:
   postgres.var:
   postgres.backup:
-  medikeep.var:
-  medikeep.backup:
 
 networks:
   frontend:
