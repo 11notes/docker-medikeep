@@ -4,9 +4,9 @@
 # GLOBAL
   ARG APP_UID=1000 \
       APP_GID=1000 \
+      APP_PYTHON_VERSION=0 \
       BUILD_SRC=afairgiant/MediKeep.git \
-      BUILD_ROOT=/MediKeep \
-      PYTHON_VERSION=3.13
+      BUILD_ROOT=/MediKeep
 
 # :: FOREIGN IMAGES
   FROM 11notes/util:bin AS util-bin
@@ -17,30 +17,19 @@
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
 # :: MEDIKEEP / SOURCE
-  FROM 11notes/python:wheel-${PYTHON_VERSION} AS src
+  FROM alpine AS src
+  COPY --from=util-bin / /
   ARG APP_VERSION \
       APP_ROOT \
       BUILD_SRC \
       BUILD_ROOT
 
   RUN set -ex; \
+    eleven apk add git;
+
+  RUN set -ex; \
     eleven git clone ${BUILD_SRC} v${APP_VERSION};
 
-# :: MEDIKEEP / WHEELS
-  FROM 11notes/python:wheel-${PYTHON_VERSION} AS wheels
-  ARG BUILD_ROOT
-  COPY --from=src ${BUILD_ROOT}/requirements.txt /
-
-  RUN set -ex; \
-    apk --update --no-cache add \
-      gcompat;
-
-  RUN set -ex; \
-    mkdir -p /pip/wheels; \
-    pip wheel \
-      --wheel-dir /pip/wheels \
-      -f https://11notes.github.io/python-wheels/ \
-      -r /requirements.txt;
 
 # :: MEDIKEEP / FRONTEND
   FROM node:lts-alpine AS frontend
@@ -60,25 +49,31 @@
     find build -name "*.map" -delete; \
     npm prune --production;
 
+
 # :: MEDIKEEP / BACKEND
-  FROM 11notes/python:${PYTHON_VERSION} AS build
+  FROM 11notes/python:${APP_PYTHON_VERSION} AS build
   USER root
   ARG APP_ROOT \
       BUILD_ROOT
   COPY --from=frontend ${BUILD_ROOT}/frontend/build/ /opt${APP_ROOT}/static
+  COPY --from=src ${BUILD_ROOT}/shared /opt${APP_ROOT}/shared
   COPY --from=src ${BUILD_ROOT}/app /opt${APP_ROOT}/app
   COPY --from=src ${BUILD_ROOT}/run.py /opt${APP_ROOT}
   COPY --from=src ${BUILD_ROOT}/alembic /opt${APP_ROOT}/alembic
-  COPY --from=wheels /pip/wheels /pip/wheels
   COPY --from=src ${BUILD_ROOT}/requirements.txt /
 
   RUN set -ex; \
     pip install \
-      --no-index \
-      -f /pip/wheels \
-      -r /requirements.txt; \
-    rm -rf /pip/wheels; \
-    rm -f /requirements.txt;
+      uv;
+
+  RUN set -ex; \
+    uv pip install \
+      --only-binary=:all: \
+      -r /requirements.txt;
+
+  RUN set -ex; \
+    pip uninstall -y \
+      uv;
 
   RUN set -ex; \
     chmod -R 0755 /opt${APP_ROOT};
@@ -88,6 +83,7 @@
       libgcc \
       libpq \
       libjpeg-turbo;
+
 
 # :: FILE-SYSTEM
   FROM alpine AS file-system
